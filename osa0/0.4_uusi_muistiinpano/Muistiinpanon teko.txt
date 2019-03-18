@@ -1,4 +1,4 @@
-title Muistiinpanon teko
+﻿title Muistiinpanon teko
 
 selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
 note over palvelin:
@@ -11,7 +11,7 @@ palvelin-->selain: HTML-koodi
 selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
 palvelin-->selain: main.css
 
-selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main,js
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
 palvelin-->selain: main.js
 
 note over selain
