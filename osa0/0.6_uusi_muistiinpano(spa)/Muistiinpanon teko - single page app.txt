@@ -1,0 +1,8 @@
+title Muistiinpanon teko - single page app
+
+note over selain
+JavaScript-koodi luo uuden muistiinpanon, piirtää sen ruudulle
+ja lähettää sen palvelimelle JSON-muodossa.
+end note
+
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
