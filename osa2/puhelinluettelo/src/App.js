@@ -1,28 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import Search from './components/Search'
 import Add from './components/Add'
 import List from './components/List'
+import axios from 'axios'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    {
-      name: 'Arto Hellas',
-      number: '045-123456'
-    },
-    {
-      name: 'Jerry Salonen',
-      number: '040-222222'
-    },
-    {
-      name: 'Esko Esimerkki',
-      number: '888888888'
-    }
-  ])  
+  const [persons, setPersons] = useState([])  
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [nameSearch, setNameSearch] = useState('')
   const [showContacts, setShowContacts] = useState(true)
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('data fetched')
+        setPersons(response.data)
+      })
+  }, [])
 
   const nameListener = (event) => {
     setNewName(event.target.value)
@@ -92,7 +90,7 @@ const App = () => {
         />
 
       <List mapNames={mapNames()} />
-      
+
     </div>
   )
 
