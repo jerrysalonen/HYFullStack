@@ -4,6 +4,7 @@ import Search from './components/Search'
 import Add from './components/Add'
 import List from './components/List'
 import contactHandler from './services/contactHandler'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,6 +12,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [nameSearch, setNameSearch] = useState('')
   const [showContacts, setShowContacts] = useState([])
+  const [notificationMsg, setNotificationMsg] = useState(null)
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     console.log('effect')
@@ -49,7 +52,17 @@ const App = () => {
   }
 
   const update = (id, person) => {
-    contactHandler.updateNum(id, person)
+    contactHandler
+      .updateNum(id, person)
+      .catch(error => {
+        setNotificationMsg(`Kontakti '${person.name}' on jo poistettu tietokannasta`)
+        setIsError(true)
+        console.log(isError)
+        setTimeout(() => {
+          setNotificationMsg(null)
+          setIsError(false)
+        }, 5000)  
+      })
   }
 
   const addContact = (event) => {
@@ -71,6 +84,13 @@ const App = () => {
       }
       setPersons(persons.concat(newContact))
       contactHandler.addContact(newContact)
+
+      setNotificationMsg(`Kontakti '${newContact.name}' lisätty`)
+      setIsError(false)
+      setTimeout(() => { 
+        setNotificationMsg(null) 
+      }, 5000)
+
       setNewName('')
       setNewNumber('')
 
@@ -79,6 +99,7 @@ const App = () => {
           setPersons(tempPersons)
           setShowContacts(tempPersons)
         })
+
     } else {
       let confirm = window.confirm(`${newName} on jo luettelossa, korvataanko vanha numero uudella?`)
       if (confirm) {
@@ -88,6 +109,7 @@ const App = () => {
         }
         let id = tempPerson.id
         update(id, newContact)
+
         setNewName('')
         setNewNumber('')
 
@@ -123,6 +145,8 @@ const App = () => {
     <div className="container">
 
       <h2 className="display-3">Puhelinluettelo</h2>
+
+      <Notification message={notificationMsg} isError={isError} />
 
       <Search value={nameSearch} onChange={nameSearchListener} />
 

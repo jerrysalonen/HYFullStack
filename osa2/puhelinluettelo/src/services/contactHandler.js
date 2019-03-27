@@ -22,6 +22,7 @@ const deleteContact = person => {
 const updateNum = (id, person) => {
     const request = axios.put(`${url}/${id}`, person)
     return request.then(response => response.data)
+
 }
 
 
